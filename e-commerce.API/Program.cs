@@ -4,11 +4,10 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<DataContext>(options => {
-    var config = builder.Configuration;
-    var connectionString = config.GetConnectionString("DefaultConnection");
-
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+builder.Services.AddDbContext<DataContext>(opt => 
+{
+    opt.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
+        new MySqlServerVersion(new Version(8, 0, 0)));
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
